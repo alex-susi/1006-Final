@@ -24,6 +24,10 @@ def test():
 def columbia():
     return "Columbia"
 
+@app.route("/Assignments")
+def assignments():
+    return render_template("Assignments.html")
+
 
 #start the server
 if __name__ == "__main__":
