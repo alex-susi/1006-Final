@@ -7,6 +7,9 @@ Created on Tue Apr 21 14:57:17 2020
 
 #import statements
 from flask import Flask, render_template
+import requests
+import pandas as pd
+import bs4
 
 #Flask app variable
 app = Flask(__name__)
@@ -28,6 +31,17 @@ def columbia():
 def assignments():
     return render_template("Assignments.html")
 
+@app.route("/NBA")
+def advancedstats():
+    return scrape("https://www.basketball-reference.com/leagues/NBA_2020_advanced.html")
+
+
+def scrape(website):
+    bs = bs4.BeautifulSoup(requests.get(website).content, 'lxml')
+    tables = bs.find_all('table')
+    stats = pd.read_html(str(tables[0]))[0]
+    return stats
+    
 
 #start the server
 if __name__ == "__main__":
